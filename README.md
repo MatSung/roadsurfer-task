@@ -1,5 +1,24 @@
 # 🍎🥕 Fruits and Vegetables
 
+## Task from roadsurfer
+
+Get collections from a `request.json` or any json.
+```php
+// inject storage service, collect a request
+$storageService->collect($request);
+
+// grab the vegetable collection
+$vegetableCollection = $storageService->getCollection('vegetable');
+
+// add a vegetable or increase its quantity
+$vegetableCollection->add(new App\Item\Fruit('apples', 1, 'kg'));
+
+// get the storage json
+$json = $storageService->store();
+```
+Operate on the collections with `get()`, `add()`, `list()`, `remove()`;
+Run tests the same way
+
 ## 🎯 Goal
 We want to build a service which will take a `request.json` and:
 * Process the file and create two separate collections for `Fruits` and `Vegetables`

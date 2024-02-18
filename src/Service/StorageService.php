@@ -54,9 +54,9 @@ class StorageService
      * @param string $type
      * @return ItemCollection
      */
-    public function getCollection(string $type): ItemCollection
+    public function getCollection(string $type): ?ItemCollection
     {
-        return $this->collections[$type];
+        return $this->collections[$type] ?? null;
     }
 
     /**
@@ -106,6 +106,19 @@ class StorageService
         if (count($errors) > 0) {
             throw new \Exception((string) $errors);
         }
+    }
+
+    /**
+     * For storing, just returns a serialized object json now
+     * @return string
+     */
+    public function store(): string
+    {
+        $items = [];
+        foreach ($this->getCollections() as $key => $value) {
+            $items = array_merge($items, $value->getItems());
+        }
+        return $this->serializer->serialize($items, 'json');
     }
 
 }

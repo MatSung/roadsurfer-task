@@ -93,4 +93,33 @@ class StorageServiceTest extends KernelTestCase
         $this->storageService->collect($request);
     }
 
+    public function testSerializeCollectionsToJson(): void
+    {
+        $request = '[{
+            "id": 1,
+            "name": "Carrot",
+            "type": "vegetable",
+            "quantity": 10922,
+            "unit": "g"
+          },
+          {
+            "id": 2,
+            "name": "Apple",
+            "type": "fruit",
+            "quantity": 2,
+            "unit": "g"
+          }]';
+
+        $this->storageService->collect($request);
+
+        $result = $this->storageService->store();
+
+        $this->assertJson($result, 'The collections failed to serialize back into JSON');
+
+        $this->storageService->collect($result);
+        
+        $this->assertEquals(1, count($this->storageService->getCollection('vegetable')->getItems()), 'The collection did not serialize correctly');
+        $this->assertEquals((float) 4, $this->storageService->getCollection('fruit')->get('apple')->getQuantity(), 'The apple quantity did not serialize correctly');
+    }
+
 }
