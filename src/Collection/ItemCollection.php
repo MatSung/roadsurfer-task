@@ -64,7 +64,9 @@ class ItemCollection
      */
     public function remove(string $name): ?AbstractItem
     {
-
+        if (!isset($this->items[$name])) {
+            return null;
+        }
         $item = $this->items[$name];
         unset($this->items[$name]);
         return $item;
